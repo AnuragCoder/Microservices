@@ -1,38 +1,43 @@
 package main
 
 import (
-	"fmt"
-	"io/ioutil"
+	"/handlers"
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
 	// HandleFunc resister a function on a path
-	http.HandleFunc("/", func(rw http.ResponseWriter, r *http.Request) {
+	// http.HandleFunc("/", func(rw http.ResponseWriter, r *http.Request) {
 
-		log.Printf("> base Root")
-		d, err := ioutil.ReadAll(r.Body) // ioutil is Golang package to readAll , readFile , readDir , TempDir , TempFile ,  WriteFile , NopCloser , Discard.write
-		log.Printf("Data is %s", d)
-		log.Printf("Error is %s", err)
+	// log.Printf("> base Root")
+	// d, err := ioutil.ReadAll(r.Body) // ioutil is Golang package to readAll , readFile , readDir , TempDir , TempFile ,  WriteFile , NopCloser , Discard.write
+	// log.Printf("Data is %s", d)
+	// log.Printf("Error is %s", err)
 
-		fmt.Fprintf(rw, "Hello %s", d)
+	// fmt.Fprintf(rw, "Hello %s", d)
 
-		// d, err := ioutil.ReadAll(r.Body)
+	// d, err := ioutil.ReadAll(r.Body)
 
-		// if err != nil {
-		// 	http.Error(rw, "Oops", http.StatusBadRequest)
-		// 	return
-		// }
+	// if err != nil {
+	// 	http.Error(rw, "Oops", http.StatusBadRequest)
+	// 	return
+	// }
 
-		// fmt.Fprintf(rw, "Hello %s", d)
+	// fmt.Fprintf(rw, "Hello %s", d)
 
-		// log.Printf("Data %s\n", d)
-	})
+	// log.Printf("Data %s\n", d)
+	// })
 
-	http.HandleFunc("/goodby", func(http.ResponseWriter, *http.Request) {
-		log.Println("goodby World")
-	})
+	// http.HandleFunc("/goodby", func(http.ResponseWriter, *http.Request) {
+	// 	log.Println("goodby World")
+	// })
+
+	l := log.New(os.Stdout, "product-api", log.LstdFlags)
+	hh := handlers.NewHello(l)
+	sm := http.NewServeMux()
+	sm.Handle("/", hh)
 
 	http.ListenAndServe(":9090", nil)
 
